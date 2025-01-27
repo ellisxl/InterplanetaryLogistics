@@ -855,7 +855,7 @@ local function ShuttelByCore(entity)
     end
     return nil
 end
-
+--[[ Test ]]
 --[[ TODO: min distance einbauen fürt einsteigen und aussteigen ]]
 local on_entership = function(event)
     local player = game.players[event.player_index]
