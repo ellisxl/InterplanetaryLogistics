@@ -10,3 +10,7 @@ function dump(o)
         return tostring(o)
     end
 end
+
+function CreateMode(mode)
+    return { tick = game.tick, mode = mode or 0 }
+end

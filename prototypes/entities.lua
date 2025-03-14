@@ -1,153 +1,8 @@
---[[ local vehicle_leg = table.deepcopy(data.raw["spider-leg"]["spidertron-leg-1"])
-vehicle_leg.name = "il_shuttle-leg"
-vehicle_leg.graphics_set = {}
-vehicle_leg.collision_mask = {
-    layers = {
-    },
-}
-vehicle_leg.target_position_randomisation_distance = 0
-vehicle_leg.working_sound = nil
-vehicle_leg.minimal_step_size = 0
-vehicle_leg.movement_based_position_selection_distance = 1.5 -- I have no idea what this does.
-vehicle_leg.initial_movement_speed = 1
-vehicle_leg.movement_acceleration = 0
-vehicle_leg.walking_sound_volume_modifier = 0
--- vehicle_leg.part_length = 2
--- vehicle_leg.part_length = 0.1
-vehicle_leg.selectable_in_game = false
-data:extend { vehicle_leg } ]]
-
-
-
---[[ local il_shutle = {
-    type = "spider-vehicle",
-    name = "il_shuttle",
-
-    energy_source = {
-        type = "void",
-    },
-    inventory_size = 100,
-    spider_engine = {
-        legs = {
-            leg = "il_shuttle-leg",
-            mount_position = { 0, 0.5 },
-            ground_position = { 0, 0 },
-            blocking_legs = {},
-            walking_group = 1
-        },
-        walking_group_overlap = 1,
-    },
-    height = 0,
-    movement_energy_consumption = "1W",
-    automatic_weapon_cycling = false,
-    chain_shooting_cooldown_modifier = 1,
-
-    weight = 1,
-    braking_power = "1W",
-    friction = 1,
-    energy_per_hit_point = 1,
-
-    allow_passengers = false,
-
-    max_health = 1000,
-
-    icon = "__InterplanetaryLogistics__/textures/il_shuttle.png",
-    render_layer = "object",
-    collision_mask = {
-        layers = {
-        },
-    },
-
-    picture = {
-        filename = "__InterplanetaryLogistics__/textures/nothing.png",
-        width = 256,
-        height = 256,
-        scale = 1,
-    },
-
-    collision_box = { { -2.25, -2.25 }, { 2.25, 2.25 } },
-    selection_box = { { -2.25, -2.25 }, { 2.25, 2.25 } },
-    selectable_in_game = true,
-    flags = { "placeable-player", "placeable-off-grid", "not-blueprintable", "not-upgradable", "not-rotatable" }, --"not-on-map"
-    minable = {
-        mining_time = 0.5,
-        result = "il_shuttle",
-        count = 1,
-    },
-    map_color = { r = 102, g = 0, b = 255 },
-    chunk_exploration_radius = 2,
-} ]]
-
-local il_shuttel_container_extern = {
-    type = "proxy-container",
-    name = "il_shuttle_container_extern",
-    picture = {
-        filename = "__InterplanetaryLogistics__/textures/container.png",
-        width = 64,
-        height = 64,
-        scale = 0.5,
-    },
-    collision_box = { { -0.5, -0.5 }, { 0.5, 0.5 } },
-    selection_box = { { -0.5, -0.5 }, { 0.5, 0.5 } },
-    selectable_in_game = true,
-}
-
---[[ local il_shuttle_dock = {
-    type = "accumulator",
-    name = "il_shuttle_dock",
-    icon = "__InterplanetaryLogistics__/textures/il_shuttle_dock.png",
-
-    integration_patch_render_layer = "floor",
-    chargable_graphics = {
-        picture = {
-            filename = "__InterplanetaryLogistics__/textures/il_shuttle_dock.png",
-            width = 160,
-            height = 160,
-            scale = 1,
-        },
-    },
-    energy_source =
-    {
-        type = "electric",
-        buffer_capacity = "5GJ",
-        usage_priority = "primary-output",
-        input_flow_limit = "300kW",
-        output_flow_limit = "300kW"
-    },
-    collision_mask = {
-        layers = {
-            il_dock_layer = true,
-            is_lower_object = true,
-            is_object = true,
-            water_tile = true,
-            object = true,
-            player = true,
-        },
-    },
-    collision_box = { { -2.5, -2.5 }, { 2.5, 2.5 } },
-    selection_box = { { -2.5, -2.5 }, { 2.5, 2.5 } },
-    flags = { "placeable-player", "player-creation" },
-    minable = {
-        mining_time = 0.5,
-        result = "il_shuttle_dock",
-        count = 1,
-    },
-} ]]
-
-
-
-
-
---[[ ------------------------------------------------------------------ NEEEEEW ENTITY DATA ------------------------------------------------------------------]]
-
 local util = require("__core__/lualib/util")
-local sounds = require("__base__.prototypes.entity.sounds")
 
 local il_shuttle_dock = {
-    -- Type radar so that we have an animation to work with
-    type = "accumulator",
+    type = "proxy-container",
     name = "il_shuttle_dock",
-    --[[ localised_name = {"entity-name.ss-spidertron-dock"}, ]]
     icon = "__InterplanetaryLogistics__/textures/dock/dock-icon.png",
     placeable_by = { item = "il_shuttle_dock", count = 1 },
     minable = { mining_time = 0.1, result = "il_shuttle_dock" },
@@ -159,34 +14,21 @@ local il_shuttle_dock = {
     dying_explosion = "medium-explosion",
     collision_box = { { -0.7, -0.7 }, { 0.7, 0.7 } },
     selection_box = { { -1, -1 }, { 1, 1 } },
-    charge_cooldown = 30,
-    discharge_cooldown = 60,
-    energy_per_nearby_scan = "1J",
-    --[[  energy_source = {
-      type = "void",
-      buffer_capacity = "1J",
-      usage_priority = "tertiary",
-      input_flow_limit = "1W",
-      output_flow_limit = "1W",
-      render_no_network_icon = false,
-      render_no_power_icon = false,
-    }, ]]
-    energy_source =
+    picture =
     {
-        type = "electric",
-        buffer_capacity = "5GJ",
-        usage_priority = "primary-output",
-        input_flow_limit = "300kW",
-        output_flow_limit = "300kW"
-    },
-    chargable_graphics = {
-        picture =
+        layers =
         {
-            layers =
             {
-                {
-                    -- Using "HR" for both, since it's more like halfway between
-                    -- high and normal resolution
+                -- Using "HR" for both, since it's more like halfway between
+                -- high and normal resolution
+                filename = "__InterplanetaryLogistics__/textures/dock/hr-dock.png",
+                priority = "low",
+                width = 113,
+                height = 120,
+                direction_count = 1,
+                shift = util.by_pixel(0, -4),
+                scale = 0.6,
+                hr_version = {
                     filename = "__InterplanetaryLogistics__/textures/dock/hr-dock.png",
                     priority = "low",
                     width = 113,
@@ -194,19 +36,20 @@ local il_shuttle_dock = {
                     direction_count = 1,
                     shift = util.by_pixel(0, -4),
                     scale = 0.6,
-                    hr_version = {
-                        filename = "__InterplanetaryLogistics__/textures/dock/hr-dock.png",
-                        priority = "low",
-                        width = 113,
-                        height = 120,
-                        direction_count = 1,
-                        shift = util.by_pixel(0, -4),
-                        scale = 0.6,
-                    }
-                },
-                {
-                    -- Using "HR" for both, since it's more like halfway between
-                    -- high and normal resolution
+                }
+            },
+            {
+                -- Using "HR" for both, since it's more like halfway between
+                -- high and normal resolution
+                filename = "__InterplanetaryLogistics__/textures/dock/dock-shadow.png",
+                priority = "low",
+                width = 126,
+                height = 80,
+                direction_count = 1,
+                shift = util.by_pixel(20, 6),
+                scale = 0.6,
+                draw_as_shadow = true,
+                hr_version = {
                     filename = "__InterplanetaryLogistics__/textures/dock/dock-shadow.png",
                     priority = "low",
                     width = 126,
@@ -215,21 +58,10 @@ local il_shuttle_dock = {
                     shift = util.by_pixel(20, 6),
                     scale = 0.6,
                     draw_as_shadow = true,
-                    hr_version = {
-                        filename = "__InterplanetaryLogistics__/textures/dock/dock-shadow.png",
-                        priority = "low",
-                        width = 126,
-                        height = 80,
-                        direction_count = 1,
-                        shift = util.by_pixel(20, 6),
-                        scale = 0.6,
-                        draw_as_shadow = true,
-                    }
-                },
-            }
-        },
+                }
+            },
+        }
     },
-    vehicle_impact_sound = sounds.generic_impact,
     working_sound =
     {
         sound =
@@ -245,8 +77,6 @@ local il_shuttle_dock = {
         fade_in_ticks = 4,
         fade_out_ticks = 20
     },
-    radius_minimap_visualisation_color = { r = 0.059, g = 0.092, b = 0.235, a = 0.275 },
-    rotation_speed = 0.01,
     water_reflection = {
         pictures = {
             filename = "__base__/graphics/entity/radar/radar-reflection.png",
@@ -261,18 +91,6 @@ local il_shuttle_dock = {
         orientation_to_variation = false
     }
 }
-
-
---[[ ------------------------------------------------------------------ []------------------------------------------------------------------]]
-
-
---[[
-local localised_description = nil
- if mods["space-exploration"] then
-  localised_description = {"", {"space-spidertron.description-se"}}
-elseif mods["space-age"] then
-  localised_description = {"", {"space-spidertron.description-sa"}}
-end ]]
 
 local il_shutle = {
     type = "spider-vehicle",
@@ -290,7 +108,7 @@ local il_shutle = {
     close_sound = { filename = "__base__/sound/spidertron/spidertron-door-close.ogg", volume = 0.4 },
     sound_minimum_speed = 0.1,
     sound_scaling_ratio = 0.6,
-    allow_passengers = true, -- It's a nice space vehicle
+    allow_passengers = false, 
     working_sound =
     {
         sound =
@@ -311,8 +129,8 @@ local il_shutle = {
         match_speed_to_activity = true
     },
     weight = 1,
-    braking_force = 1,
-    friction_force = 1,
+    braking_force = 1,--[[ bremse ]]
+    friction_force = 1,--[[ reibung ]]
     torso_bob_speed = 0.2,
     flags = { "placeable-neutral", "player-creation", "placeable-off-grid" },
     collision_mask = { layers = {} },
@@ -366,9 +184,9 @@ local il_shutle = {
     corpse = "medium-remnants",
     energy_per_hit_point = 1,
     guns = {},
-    inventory_size = 100, -- Vanilla is 80
+    inventory_size = 200, -- Vanilla is 80
     equipment_grid = "spidertron-equipment-grid",
-    trash_inventory_size = 20,
+    --[[ trash_inventory_size = 20, ]]
     height = 1.5,
     torso_rotation_speed = 0.2,
     chunk_exploration_radius = 3,
@@ -485,7 +303,7 @@ local il_shuttle_leg = {
     movement_based_position_selection_distance = 0.11,
     selectable_in_game = false,
     alert_when_damaged = false,
-}
+} 
 
 
-data:extend { il_shutle, il_shuttle_leg, il_shuttel_container_extern, il_shuttle_dock }
+data:extend { il_shutle, il_shuttle_leg, il_shuttle_dock }

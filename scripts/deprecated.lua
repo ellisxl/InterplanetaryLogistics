@@ -338,3 +338,85 @@ local function CreateAndSetFlight(shuttle, targetDock)
         end
     end
 end
+
+local function CreateVoidSurface(shuttle)
+    local surface          = game.create_surface("Shuttle (" .. shuttle.ID .. ")", {
+        width = 5,
+        height = 5,
+        autoplace_controls = {},
+        starting_area = "none",
+        peaceful_mode = true,
+        force = game.forces.neutral,
+    })
+    surface.freeze_daytime = true
+    surface.daytime        = 1
+
+    for xx = -1, 1 do
+        for yy = -1, 1 do
+            surface.set_chunk_generated_status({ xx, yy }, defines.chunk_generated_status.entities)
+        end
+    end
+
+    --[[  surface.destroy_decoratives({ area = { left_top = { x = -halfSideTiles, y = -halfSideTiles }, right_bottom = { x = halfSideTiles, y = halfSideTiles } } }) ]]
+
+
+    --[[     local ttbl = {}
+    for y = -7, 7 do
+        for x = -3, 3 do
+            table.insert(ttbl, { name = "il_shuttle_floor", position = { x, y } })
+        end
+    end
+    surface.set_tiles(ttbl) ]]
+
+    return surface
+end
+
+local transferrate = 10000 
+local function transferPowerFromDockToShuttle()
+    --[[
+    local il = data.GetOrCreate()
+    for k, v in pairs(il.shuttles) do
+        if v and v.position and v.position.dockId then
+            local dock = il.docks[v.position.dockId]
+            if dock and dock.entity and dock.entity.valid then
+                local transferPower = 0
+                local maxVolumenTarget = v.maxEnergy
+                local currentTargetAmount = v.energy
+                local powerLeftTarget = maxVolumenTarget - currentTargetAmount
+
+                if powerLeftTarget < transferrate then
+                    transferPower = powerLeftTarget
+                else
+                    transferPower = transferrate
+                end
+
+                local CurrentSourcePower = dock.entity.energy
+                if CurrentSourcePower < transferPower then
+                    transferPower = CurrentSourcePower
+                end
+                if transferPower > 0 then
+                    dock.entity.energy = dock.entity.energy - transferPower
+                    v.energy = v.energy + transferPower
+                end
+            end
+        end
+    end
+     ]]
+end
+
+local function holdCargo(entity)
+    if entity and entity.valid then
+        return entity.get_inventory(defines.inventory.spider_trunk).get_contents()
+    else
+        return nil
+    end
+end
+
+local function loardCargo(entity, inv)
+    if inv and entity and entity.valid then
+        local inventory = entity.get_inventory(defines.inventory.spider_trunk)
+        for k, item in pairs(inv) do
+            inventory.insert(item)
+        end
+    end
+end 

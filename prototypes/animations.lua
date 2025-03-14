@@ -1,42 +1,14 @@
-local textures = {}
 
-
-local function CellToGrid(c, columns)
-    local x = ((c - 1) % columns) + 1
-    local y = math.floor((c - 1) / columns) + 1
-    return x, y
-end
-
-for c = 1, 72 do
-    local x, y = CellToGrid(c, 6)
-
-    textures[c] = {
-        type = "sprite",
-        name = "il-ship-rotation-sprite-" .. c,
-        filename = "__InterplanetaryLogistics__/textures/RotateShip.png",
-        width = 256,
-        height = 256,
-        --[[ scale = 0.75, ]]
-        x = (x - 1) * 256,
-        y = (y - 1) * 256,
-        shift = {0, -0.5},
-    }
-end
-
-for ch = 1, 30 do
-    local xh, yh = CellToGrid(ch, 10)
-
-    textures[ch + 72] = {
-        type = "sprite",
-        name = "il-ship-height-sprite-" .. ch,
-        filename = "__InterplanetaryLogistics__/textures/liftupship.png",
-        width = 256,
-        height = 256,
-        --[[ scale = 0.75, ]]
-        x = (xh - 1) * 256,
-        y = (yh - 1) * 256,
-        shift = {0, -0.5},
-    }
-end
-
-data:extend(textures)  
+local teleport_animation = {
+    type = "animation",
+    name = "il_teleport_effect",
+    filename = "__InterplanetaryLogistics__/textures/teleport_effect/teleporter_effect_2.png",
+    size = 192,
+    width = 240,
+    height = 320,
+    frame_count = 25,
+    line_length = 5,
+    animation_speed = 1,
+    frame_sequence = { 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10, 11, 11, 12, 12, 13, 13, 14, 14, 15, 15, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22, 23, 23, 24, 24, 25, 25 },
+}
+data:extend({ teleport_animation })

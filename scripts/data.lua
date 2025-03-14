@@ -1,3 +1,5 @@
+require "scripts.util"
+
 data = {}
 -- prüft ob storage.il vorhanden erstellt es bei bedarf und gibt es zurück
 function data.GetOrCreate()
@@ -24,12 +26,22 @@ end
 
 function data.RegistrateDock(entity)
     local _il = data.GetOrCreate()
+    local _id = nextDockID()
     local dock = {
-        id = nextDockID(),
+        id = _id,
         name = "[noname]", --[[ name of the dock ]]
-        entity = entity, 
-        x = entity.position.x, 
-        y = entity.position.y, 
+        entity = entity,
+        label = rendering.draw_text {
+            text = "Dock-" .. _id,
+            surface = entity.surface,
+            target = entity,
+            target_offset = { 0, -1.7 },
+            color = { r = 1, g = 1, b = 1 },
+            scale = 0.9,
+            alignment = "center",
+            scale_with_zoom = false,
+            only_in_alt_mode = true,
+        },
     }
     _il.docks[dock.id] = dock
 
@@ -38,31 +50,21 @@ end
 
 function data.RegistrateShuttle(entity)
     local _il = data.GetOrCreate()
-    local _id = nextShuttleID();
+    local _id = entity.unit_number --[[  nextShuttleID() ]]
+
     local shuttle = {
         id = _id, --[[ the id of the shuttle  ]]
-        force = entity.force, --[[ the force of the shuttle  ]]
         entity = entity, --[[ the shuttle entity  ]]
         active = false, --[[ if the shuttel is active  ]]
 
+        stops = {},       -- Auflistung aller haltestellen die das shuttle abfliegen soll.
+        current_stop = 0, -- Aktuelle anzufliegende Haltestelle oder berreits erreichte haltestelle.
 
-        flightRules = {}, --[[ all flight  stops/rules for this shuttle  ]]
-        currentRule = 0, --[[ the current flightrule index (start with 1 for the first entry) ]]
+        mode = CreateMode(1), --[[ the current mode of the shuttle  ]]
 
-        mode = {
-            mode = 1,
-            tick = game.tick, --[[ the tick when the mode was set  ]]
-        }, 
-        
-        flight = nil, --[[ the current flight  ]] 
-        --[[ flight = {
-            x = nil,
-            y = nil,
-            surface = nil,
-            dockID = nil,
-        }, ]]
+        connected_dock = nil, --[[ the connected dock  ]]
 
-        cargo = nil, --[[ the external proxy container pointing on the entety inventory ]]
+        flight = nil, --[[ the current flight  ]]
 
     }
 
