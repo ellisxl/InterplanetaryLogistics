@@ -1,6 +1,7 @@
+require("prototypes.trigger-target")
 require("prototypes.layer")
 require("prototypes.items")
-require("prototypes.entities")
+require("prototypes.entities._index_") 
 require("prototypes.recipes")
 require("prototypes.animations")
 require("prototypes.tiles")
