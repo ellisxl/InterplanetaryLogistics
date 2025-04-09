@@ -3,7 +3,7 @@ local item_sounds = require("__base__.prototypes.item_sounds")
 local il_shutle = {
     type = "spider-vehicle",
     name = "il_shuttle",
-    icon = "__InterplanetaryLogistics__/textures/shuttle/space-spidertron-icon.png",
+    icon = "__InterplanetaryLogistics__/textures/shuttle/shuttle_icon.png",
     --[[ localised_description = localised_description, ]]
     icon_size = 64,
     icon_mipmaps = 4,
@@ -84,10 +84,10 @@ local il_shutle = {
     },
     minimap_representation =
     {
-        filename = "__InterplanetaryLogistics__/textures/shuttle/space-spidertron-map.png",
+        filename = "__InterplanetaryLogistics__/textures/shuttle/dock_map.png",
         flags = { "icon" },
         size = { 128, 128 },
-        scale = 0.5
+        scale = 0.25
     },
     corpse = "medium-remnants",
     energy_per_hit_point = 1,
@@ -103,7 +103,7 @@ local il_shutle = {
         animation = {
             layers = {
                 {
-                    filename = "__InterplanetaryLogistics__/textures/shuttle/shuttle/sheet.png",
+                    filename = "__InterplanetaryLogistics__/textures/shuttle/shuttle_sheet.png",
                     width = 512,
                     height = 512,
                     scale = 0.5,
@@ -112,7 +112,7 @@ local il_shutle = {
                     line_length = 8,
                 },
                 {
-                    filename = "__InterplanetaryLogistics__/textures/shuttle/shuttle_shadow/sheet.png",
+                    filename = "__InterplanetaryLogistics__/textures/shuttle/shuttle_shadow_sheet.png",
                     width = 512,
                     height = 512,
                     scale = 0.5,
@@ -182,20 +182,9 @@ local li_shuttle__item = {
     type = "item-with-entity-data",
     name = "il_shuttle",
     --[[ localised_description = localised_description, ]]
-
-    --[[
-    icon = "__InterplanetaryLogistics__/textures/shuttle/space-spidertron-icon.png",
-    icon_tintable = "__InterplanetaryLogistics__/textures/shuttle/space-spidertron-icon.png",
-    icon_tintable_mask = "__InterplanetaryLogistics__/textures/shuttle/space-spidertron-icon-tintable-mask.png",
-    ]] 
-    
-    icons = {
-        {
-            icon = "__InterplanetaryLogistics__/textures/shuttle/shuttle/0001.png",
-            icon_size = 512,
-            scale = 0.5,
-        }
-    },
+ 
+     
+    icon ="__InterplanetaryLogistics__/textures/shuttle/shuttle_icon.png",
     icon_size = 64,
     icon_mipmaps = 4,
     subgroup = "transport",

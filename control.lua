@@ -8,6 +8,38 @@ local attractors = require("scripts.logic.attractors")
 
 
 
+script.on_configuration_changed(function(event)
+    game.print("on_configuration_changed" .. dump(event))
+    if storage and storage.il then
+        local n_docks = {}
+        local n_dock  = {}
+        for old_dock_id, dock in pairs((storage.il.docks or {})) do
+            n_dock = dock
+            n_dock.id = dock.entity.unit_number
+            n_docks[dock.id] = n_dock
+
+            for _, shuttle in pairs(storage.il.shuttles or {}) do
+                if shuttle.connected_dock == old_dock_id then
+                    shuttle.connected_dock = n_dock.id
+                end
+
+                if shuttle.flight and shuttle.flight.target_dock_id == old_dock_id then
+                    shuttle.flight.target_dock_id = n_dock.id
+                end
+
+                for _, stop in pairs(shuttle.stops) do
+                    if stop.dock_id == old_dock_id then
+                        stop.dock_id = n_dock.id
+                    end
+                end
+            end
+        end
+
+        storage.shuttles = storage.il.shuttles or {}
+        storage.docks    = n_docks
+        storage.il       = nil
+    end
+end)
 
 
 script.on_event(defines.events.on_player_used_spidertron_remote, function(event)
@@ -60,8 +92,8 @@ script.on_event(defines.events.on_tick, function(event)
         end
     end
 
-    --[[ if event.tick % 60 == 0 then  
-    
+    --[[ if event.tick % 60 == 0 then
+
     end ]]
 end)
 

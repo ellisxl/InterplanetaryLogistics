@@ -59,7 +59,7 @@ end
 
     local flow_shuttles = frame.add { type = "flow", name = "il_debug_gui_shuttles_flow", direction = "vertical" }
     local flow_shuttle_item
-    for kS, shuttle in pairs(storage.il.shuttles) do
+    for kS, shuttle in pairs(storage.shuttles) do
         flow_shuttle_item = flow_shuttles.add { type = "flow", name = "flow_shuttle_" .. kS }
         self:UpdateShuttleGuiItem(shuttle, flow_shuttle_item)
     end
@@ -75,14 +75,14 @@ end
 
         --[[ Remove all not exiting shuttles ]]
         for k, v in pairs(flow_shuttles.children) do
-            if storage.il.shuttles[tonumber(string.match(k, "flow_shuttle_(%d+)"))] == nil then
+            if storage.shuttles[tonumber(string.match(k, "flow_shuttle_(%d+)"))] == nil then
                 v.destroy()
             end
         end
 
         --[[ add or update all shuttles ]]
         local flow_shuttle_item
-        for kS, shuttle in pairs(storage.il.shuttles) do
+        for kS, shuttle in pairs(storage.shuttles) do
             flow_shuttle_item = flow_shuttles.children["flow_shuttle_" .. kS] or
                 flow_shuttles.add { type = "flow", name = "flow_shuttle_" .. kS }
             self:UpdateShuttleGuiItem(shuttle, flow_shuttle_item)

@@ -327,8 +327,7 @@ end
 ---comment
 ---@param shuttle shuttle
 ---@param stop stop
----@param stop_key number
----@return boolean
+---@param stop_key number 
 local function TryPlanShuttleFlightightByStopRule(shuttle, stop, stop_key)
     local targetDock = data.Docks()[stop.dock_id]
     if targetDock then --[[ check ob nächstes dock vorhanden ]]
@@ -363,31 +362,23 @@ function shuttles_and_docks.handle_rules_of_ships()
                     if current_stop.stop.dock_id == shuttle.connected_dock then --[[ prüfen ob shuttel mit stop_dock verbunden ist  ]]
                         if checkConditionFulfilled(shuttle, current_stop.stop) then --[[ Prüfen ob abflug bgungerfüllt sind ]]
                             local next_stop = getNextStop(shuttle, current_stop.key)
-                            if next_stop.valid and TryPlanShuttleFlightightByStopRule(shuttle, next_stop.stop, next_stop.key) then
-                                game.print("aktuelle regel gilt für aktuelles dock und regel ist erfüllt")
+                            if next_stop.valid  then
+                                TryPlanShuttleFlightightByStopRule(shuttle, next_stop.stop, next_stop.key)
                             else
-                                game.print("HROS: next_stop is nil or TryPlanShuttleFlightightByStopRule failed")
-                                game.print("HROS: no next dock ...")
+                                game.print("HROS: next_stop is nil .. no next dock ...") 
                             end
                         else
                             --[[ do nothing cause condition not fulfilled ]]
                         end
                     else
-                        if TryPlanShuttleFlightightByStopRule(shuttle, current_stop.stop, current_stop.key) then
-                            game.print(
-                                "HROS (current stop not docked): aktuelle regel gilt für aktuelles dock und regel ist erfüllt")
-                        else
-                            --[[ do nothing cause condition not fulfilled ]]
+                        if not TryPlanShuttleFlightightByStopRule(shuttle, current_stop.stop, current_stop.key) then
                             game.print("HROS (current stop not docked): TryPlanShuttleFlightightByStopRule failed")
                         end
                     end
                 else --[[ kein aktueller stop festgelegt ]]
                     local next_stop = getNextStop(shuttle, 0) --[[ versucht ersten stop zu ]]
                     if next_stop.valid then --[[ nächstes dock vorhanden anflug kann geprüft und geplannt werden ]]
-                        if TryPlanShuttleFlightightByStopRule(shuttle, next_stop.stop, next_stop.key) then
-                            game.print(
-                                "HROS (no privius stop): aktuelle regel gilt für aktuelles dock und regel ist erfüllt")
-                        else --[[ do nothing cause condition not fulfilled ]]
+                        if not TryPlanShuttleFlightightByStopRule(shuttle, next_stop.stop, next_stop.key) then 
                             game.print(
                                 "HROS (no privius stop): next_stop is nil or TryPlanShuttleFlightightByStopRule failed")
                         end

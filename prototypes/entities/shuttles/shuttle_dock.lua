@@ -1,7 +1,7 @@
 local il_shuttle_dock = {
     type = "proxy-container",
     name = "il_shuttle_dock",
-    icon = "__InterplanetaryLogistics__/textures/dock/dock-icon.png",
+    icon = "__InterplanetaryLogistics__/textures/dock/dock_icon.png",
     placeable_by = { item = "il_shuttle_dock", count = 1 },
     minable = { mining_time = 2, result = "il_shuttle_dock" },
     icon_size = 64,
@@ -16,7 +16,7 @@ local il_shuttle_dock = {
         layers =
         {
             {
-                filename = "__InterplanetaryLogistics__/textures/dock/0001.png",
+                filename = "__InterplanetaryLogistics__/textures/dock/dock.png",
                 priority = "low",
                 width = 512,
                 height = 448,
@@ -24,7 +24,7 @@ local il_shuttle_dock = {
                 shift = util.by_pixel(0, -4),
                 scale = 0.5,
                 hr_version = {
-                    filename = "__InterplanetaryLogistics__/textures/dock/hr-dock.png",
+                    filename = "__InterplanetaryLogistics__/textures/dock/dock.png",
                     priority = "low",
                     width = 512,
                     height = 448,
@@ -87,9 +87,8 @@ local li_shuttle_dock__item = {
     name = "il_shuttle_dock",
     icons = {
         {
-            icon = "__InterplanetaryLogistics__/textures/dock/0001.png", --[[  "__InterplanetaryLogistics__/textures/dock/0001.png", "__InterplanetaryLogistics__/textures/dock/dock-icon.png"]]
-            icon_size = 448,
-            shift = { -32, 0 },
+            icon = "__InterplanetaryLogistics__/textures/dock/dock_icon.png", --[[  "__InterplanetaryLogistics__/textures/dock/0001.png", "__InterplanetaryLogistics__/textures/dock/dock-icon.png"]]
+            icon_size = 64,
             scale = 0.5,
         }
     }, 
