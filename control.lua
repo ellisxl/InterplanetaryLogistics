@@ -169,3 +169,70 @@ script.on_event(defines.events.on_gui_closed, function(event)
         end
     end
 end)
+
+
+script.on_event(defines.events.on_cargo_pod_finished_descending, function(event)
+    local cargo_pod = event.cargo_pod
+    if cargo_pod and cargo_pod.valid then
+        local destination = cargo_pod.cargo_pod_destination
+        if destination and destination.type == defines.cargo_destination.surface then
+            game.print("on_cargo_pod_finished_descending: " .. dump(event))
+            local inv = cargo_pod.get_inventory(defines.inventory.cargo_unit)
+            if inv and inv.valid then
+                if inv.get_item_count("il_outpost") > 0 then
+                    game.print("Inventar-Con: OUTPOST ")
+
+                   --[[  cargo_pod.surface.create_entity({
+                        name = "il_outpost",
+                        position = cargo_pod.position,
+                        force = cargo_pod.force,
+                    }) ]]
+
+                    local sptr = cargo_pod.surface.create_entity({
+                        name = "spidertron",
+                        position = cargo_pod.position,
+                        force = cargo_pod.force,
+                        quality = "legendary",
+                    })
+
+
+                    inv.clear()
+                    cargo_pod.die()
+
+                    if sptr and sptr.valid then
+                        local sp_grd = sptr.grid
+                        if sp_grd and sp_grd.valid then
+                            sp_grd.put({ name = "fusion-reactor-equipment", position = { 0, 0 }, quality = "legendary" })
+                            sp_grd.put({ name = "battery-mk3-equipment", position = { 4, 0 }, quality = "legendary" })
+                            sp_grd.put({ name = "battery-mk3-equipment", position = { 4, 2 }, quality = "legendary" })
+                            sp_grd.put({
+                                name = "personal-roboport-mk2-equipment",
+                                position = { 5, 0 },
+                                quality =
+                                "legendary"
+                            })
+                            sp_grd.put({
+                                name = "personal-roboport-mk2-equipment",
+                                position = { 5, 2 },
+                                quality =
+                                "legendary"
+                            })
+                            sp_grd.put({ name = "exoskeleton-equipment", position = { 7, 0 }, quality = "legendary" })
+                            sp_grd.put({ name = "exoskeleton-equipment", position = { 9, 0 }, quality = "legendary" })
+                            sp_grd.put({ name = "exoskeleton-equipment", position = { 11, 0 }, quality = "legendary" })
+                            sp_grd.put({ name = "exoskeleton-equipment", position = { 13, 0 }, quality = "legendary" })
+                        end
+
+                        local sp_inv = sptr.get_inventory(defines.inventory.spider_trunk)
+                        if sp_inv and sp_inv.valid then
+                            sp_inv.insert({ name = "construction-robot", count = 25, quality = "legendary"})
+                            sp_inv.insert({ name = "logistic-robot", count = 25, quality = "legendary"})
+                        end 
+                    end
+                end
+                --[[ local items =  inv.get_contents()
+                game.print("Inventar-Content: " .. dump(items)) ]]
+            end
+        end
+    end
+end)
