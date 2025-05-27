@@ -15,7 +15,7 @@ local main = {
             filename = "__InterplanetaryLogistics__/textures/asteroid_destroyer/asteroid_destroyer_sheet.png",
             frame_count = 1,
             width = 256,
-            height = 354,
+            height = 256,
             line_length = 8,
             --[[ shift = { 1 / 32, -24 / 32 }, ]]
             scale = 0.5 * 1.15
@@ -131,7 +131,7 @@ local il_asteroid_destroyer = {
     prepared_animation = main,
     preparing_animation = main --[[ blank ]],
     preparing_speed = 1,
-    rotation_speed = 100 --[[ 0.00 ]],
+    rotation_speed = 50 --[[ 0.00 ]],
     starting_attack_speed = 1,
     water_reflection = {
         orientation_to_variation = false,
@@ -170,7 +170,7 @@ local il_asteroid_destroyer__recipe = {
         { type = "item", name = "copper-plate", amount = 200 },
         { type = "item", name = "steel-plate",  amount = 50 }
     },
-    results = { { type = "item", name = "il_shield_emiter", amount = 1 } }
+    results = { { type = "item", name = "il_asteroid_destroyer", amount = 1 } }
 }
 
 data:extend { il_asteroid_destroyer_ammo, il_asteroid_destroyer, il_asteroid_destroyer__item, il_asteroid_destroyer__recipe }
