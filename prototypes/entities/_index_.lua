@@ -1,6 +1,6 @@
 require("prototypes.entities.logistic_container")
 
-require("prototypes.entities.shield_emiter") 
+require("prototypes.entities.asteroid_destroyer") 
 
 require("prototypes.entities.beacons.attractor") 
 

@@ -182,7 +182,7 @@ script.on_event(defines.events.on_cargo_pod_finished_descending, function(event)
                 if inv.get_item_count("il_outpost") > 0 then
                     game.print("Inventar-Con: OUTPOST ")
 
-                   --[[  cargo_pod.surface.create_entity({
+                    --[[  cargo_pod.surface.create_entity({
                         name = "il_outpost",
                         position = cargo_pod.position,
                         force = cargo_pod.force,
@@ -225,9 +225,9 @@ script.on_event(defines.events.on_cargo_pod_finished_descending, function(event)
 
                         local sp_inv = sptr.get_inventory(defines.inventory.spider_trunk)
                         if sp_inv and sp_inv.valid then
-                            sp_inv.insert({ name = "construction-robot", count = 25, quality = "legendary"})
-                            sp_inv.insert({ name = "logistic-robot", count = 25, quality = "legendary"})
-                        end 
+                            sp_inv.insert({ name = "construction-robot", count = 25, quality = "legendary" })
+                            sp_inv.insert({ name = "logistic-robot", count = 25, quality = "legendary" })
+                        end
                     end
                 end
                 --[[ local items =  inv.get_contents()

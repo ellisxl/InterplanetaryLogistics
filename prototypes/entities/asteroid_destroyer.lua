@@ -11,16 +11,16 @@ local blank = {
 local main = {
     layers = {
         {
-            direction_count = 8,
-            filename = "__InterplanetaryLogistics__/textures/astroid_shield_generator/shield-projector.png",
+            direction_count = 64,
+            filename = "__InterplanetaryLogistics__/textures/asteroid_destroyer/asteroid_destroyer_sheet.png",
             frame_count = 1,
-            width = 196,
-            height = 284,
+            width = 256,
+            height = 354,
             line_length = 8,
-            shift = { 1 / 32, -24 / 32 },
+            --[[ shift = { 1 / 32, -24 / 32 }, ]]
             scale = 0.5 * 1.15
         },
-        {
+   --[[      {
             direction_count = 8,
             frame_count = 1,
             draw_as_shadow = true,
@@ -30,25 +30,25 @@ local main = {
             line_length = 4,
             shift = { 1 + 22 / 32, -8 / 32 },
             scale = 0.5 * 1.15
-        },
+        }, ]]
     }
 }
 
 
-local il_shield_projection = {
+local il_asteroid_destroyer_ammo = {
     type = "ammo-category",
-    name = "il_shield_projection",
+    name = "il_asteroid_destroyer_ammo",
     hidden = true,
     bonus_gui_order = "z",
 }
 
-local il_shield_emiter = {
-    name = "il_shield_emiter",
+local il_asteroid_destroyer = {
+    name = "il_asteroid_destroyer",
     type = "electric-turret",
     icon = "__InterplanetaryLogistics__/textures/signal-symbols/dummy-signal-icon.png",
     minable = {
         mining_time = 0.5,
-        result = "il_shield_emiter",
+        result = "il_asteroid_destroyer",
     },
     flags = {
         "placeable-player",
@@ -60,7 +60,7 @@ local il_shield_emiter = {
     collision_box = { { -1.7, -1.7 }, { 1.7, 1.7 } },
     selection_box = { { -2, -2 }, { 2, 2 } },
     attack_parameters = {
-        ammo_category = "il_shield_projection",
+        ammo_category = "il_asteroid_destroyer_ammo",
         ammo_type = {
             action = {
                 type = "direct",
@@ -149,21 +149,21 @@ local il_shield_emiter = {
 }
 
 
-local il_shield_emiter__item = {
+local il_asteroid_destroyer__item = {
     type = "item",
-    name = "il_shield_emiter",
-    icon = "__InterplanetaryLogistics__/textures/signal-symbols/dummy-signal-icon.png",
+    name = "il_asteroid_destroyer",
+    icon = "__InterplanetaryLogistics__/textures/asteroid_destroyer/asteroid_destroyer_icon.png",
     icon_size = 64,
     icon_mipmaps = 4,
     subgroup = "transport",
     order = "b[personal-transport]-c[spidertron]-d[spidertron-dock]",
-    place_result = "il_shield_emiter",
+    place_result = "il_asteroid_destroyer",
     stack_size = 20
 }
 
-local il_shield_emiter__recipe = {
+local il_asteroid_destroyer__recipe = {
     type = "recipe",
-    name = "il_shield_emiter",
+    name = "il_asteroid_destroyer",
     enabled = true,
     energy_required = 8, -- time to craft in seconds (at crafting speed 1)
     ingredients = {
@@ -173,4 +173,4 @@ local il_shield_emiter__recipe = {
     results = { { type = "item", name = "il_shield_emiter", amount = 1 } }
 }
 
-data:extend { il_shield_projection, il_shield_emiter, il_shield_emiter__item, il_shield_emiter__recipe }
+data:extend { il_asteroid_destroyer_ammo, il_asteroid_destroyer, il_asteroid_destroyer__item, il_asteroid_destroyer__recipe }
